@@ -4,7 +4,7 @@ from pathlib import Path
 
 from beangulp.importers import csvbase
 
-from gullion_beancount_importers.revolut import RevolutDate
+from gullion_importers.revolut import RevolutDate
 
 
 class RevolutCurrentAccountImporter(csvbase.Importer):

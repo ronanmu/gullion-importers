@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from beancount.core import data
 
-from gullion_beancount_importers.revolut.current_account import (
+from gullion_importers.revolut.current_account import (
     RevolutCurrentAccountImporter,
 )
 

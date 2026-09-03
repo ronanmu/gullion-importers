@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from beancount.core import data
 
-from gullion_beancount_importers.starling.current_account import StarlingCurrentAccountImporter
+from gullion_importers.starling.current_account import StarlingCurrentAccountImporter
 
 FIXTURES = Path(__file__).parent / "fixtures" / "starling"
 
