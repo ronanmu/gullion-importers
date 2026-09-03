@@ -1,0 +1,26 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Build
+build/
+dist/
+
+# IDE
+.DS_Store
+.vscode/*.log
+
+# Real financial data
+imports/
+statements/
+downloads/
+private-fixtures/
+*.actual.csv
+
+# Environment/secrets
+.env
+.env.*

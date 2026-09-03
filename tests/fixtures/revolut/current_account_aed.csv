@@ -1,0 +1,8 @@
+Type,Product,Started Date,Completed Date,Description,Amount,Fee,Currency,State,Balance
+Exchange,Current,2026-08-01 10:15:00,2026-08-01 10:15:00,Exchanged from GBP,500.00,0.00,AED,COMPLETED,500.00
+Card Payment,Current,2026-08-01 14:30:12,2026-08-02 07:45:00,Carrefour Dubai,-84.75,0.00,AED,COMPLETED,415.25
+Card Payment,Current,2026-08-02 18:14:20,2026-08-03 06:30:00,Dubai Mall,-120.00,0.00,AED,COMPLETED,295.25
+Cash Withdrawal,Current,2026-08-03 09:11:32,2026-08-03 09:11:50,ATM Withdrawal,-100.00,2.00,AED,COMPLETED,195.25
+Transfer,Current,2026-08-04 13:20:00,2026-08-04 13:20:05,To Example Recipient,-50.00,0.00,AED,COMPLETED,145.25
+Card Payment,Current,2026-08-05 19:30:00,,Restaurant Dubai,-75.00,0.00,AED,REVERTED,
+Card Payment,Current,2026-08-06 11:20:00,2026-08-07 06:00:00,Taxi Dubai,-40.50,0.00,AED,COMPLETED,104.75

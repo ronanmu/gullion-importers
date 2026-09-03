@@ -1,0 +1,22 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/src"
+    ],
+    "editor.formatOnSave": true,
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "chat.tools.terminal.autoApprove": {
+        ".venv/bin/python": true,
+        "/^python - <<'PY'\nimport inspect, beangulp\\.importers\\.csvbase as c\nprint\\(c\\.__file__\\)\nprint\\('--- Row ---'\\)\nprint\\(inspect\\.getsource\\(c\\.Row\\)\\[:4000\\]\\)\nprint\\('--- Importer\\.read ---'\\)\nprint\\(inspect\\.getsource\\(c\\.Importer\\.read\\)\\[:4000\\]\\)\nprint\\('--- Importer\\.metadata ---'\\)\nprint\\(inspect\\.getsource\\(c\\.Importer\\.metadata\\)\\[:4000\\]\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

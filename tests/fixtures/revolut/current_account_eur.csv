@@ -1,0 +1,10 @@
+Type,Product,Started Date,Completed Date,Description,Amount,Fee,Currency,State,Balance
+Topup,Current,2016-06-18 07:55:30,,Top-up by *3633,1.00,0.00,EUR,REVERTED,
+Topup,Current,2016-06-18 07:58:12,2016-06-18 07:58:56,Top-up by *3633,250.00,0.00,EUR,COMPLETED,250.00
+Card Payment,Current,2016-07-02 18:09:39,2016-07-04 11:49:00,Tesco Stores 3677 Saca,-5.74,0.00,EUR,COMPLETED,244.26
+Exchange,Current,2016-11-25 11:15:42,2016-11-25 11:15:42,Exchanged to GBP,-100.45,0.00,EUR,COMPLETED,143.81
+Card Payment,Current,2017-03-11 15:38:19,,creditexpert.co.uk,-0.99,0.00,EUR,REVERTED,
+Card Payment,Current,2017-03-17 17:51:21,2017-03-20 11:24:34,Osmc Store,-130.33,0.00,EUR,COMPLETED,13.48
+Topup,Current,2017-10-25 19:49:33,2017-10-25 19:49:35,Apple Pay top-up by *0821,500.00,0.00,EUR,COMPLETED,513.48
+Transfer,Current,2017-10-25 19:54:22,2017-10-26 06:55:43,To Example Recipient,-500.00,0.00,EUR,COMPLETED,13.48
+Transfer,Current,2017-12-01 09:10:00,2017-12-01 09:10:10,To Bank Account,-10.00,0.50,EUR,COMPLETED,2.98

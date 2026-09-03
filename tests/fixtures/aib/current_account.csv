@@ -1,0 +1,5 @@
+Posted Account,Posted Transactions Date,Description1,Description2,Description3,Debit Amount,Credit Amount,Balance,Posted Currency,Transaction Type,Local Currency Amount,Local Currency
+"931111 - 12345678","03/11/2023","VDC-SUMUP *WEST S","","","48.30",,"7188.24",EUR,"Debit","48.30",EUR
+"931111 - 12345678","07/11/2023","VDP-IONITY GmbH Ir","","","19.44",,"7168.80",EUR,"Debit","19.44",EUR
+"931111 - 12345678","08/11/2023","TRANSFER RECEIVED","","",,"500.00","7668.80",EUR,"Credit","500.00",EUR
+"931111 - 12345678","09/11/2023","UK MERCHANT","","","120.00",,"7548.80",EUR,"Debit","100.00",GBP

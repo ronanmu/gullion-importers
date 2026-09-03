@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gullion-beancount-importers"
+version = "0.1.0"
+description = "Beancount importers for common UK and Irish bank accounts, including Starling, Revolut & AIB."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+authors = [{ name = "Ronan Murray" }]
+
+keywords = ["beancount", "beangulp", "finance", "aib", "starling", "revolut"]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+]
+
+dependencies = [
+    "beancount==3.2.3",
+
+    "beangulp @ git+https://github.com/beancount/beangulp.git@d5672c9dbb317842e0f24f1ed7f4b57fa53fa1c6",
+
+    "smart-importer",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff", "build"]
+
+[project.urls]
+Homepage = "https://github.com/ronanmu/gullion-importers"
+Repository = "https://github.com/ronanmu/gullion-importers"
+Issues = "https://github.com/ronanmu/gullion-importers/issues"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

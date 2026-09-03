@@ -1,0 +1,9 @@
+Date,Counter Party,Reference,Type,Amount (EUR),Balance (EUR),Spending Category,Notes
+28/01/2020,Fred Smith,Transfer,CURRENCY TRANSFER,29.42,29.42,INCOME,
+12/02/2020,Fred Smith, -,SEPA PAYMENT,4.22,33.64,INCOME,
+25/02/2020,Fred Smith,Test test,SEPA PAYMENT,5.00,38.64,INCOME,
+26/02/2020,Fred Smith,From sale,SEPA PAYMENT,40200.00,40238.64,INCOME,
+02/03/2020,Fred Smith,For new house ,SEPA PAYMENT,-20000.00,20238.64,PAYMENTS,
+03/03/2020,Fred Smith,For new house 2,SEPA PAYMENT,-20000.00,238.64,PAYMENTS,
+04/03/2020,Starling Bank,February Interest Earned,DEPOSIT INTEREST,0.12,238.76,INCOME,
+05/03/2020,Example Merchant,EUR purchase,ONLINE PAYMENT,-12.34,226.42,GENERAL,Test note
