@@ -23,6 +23,8 @@ class BarclaycardImporter(csvbase.Importer):
         6 Amount
     """
 
+    names = False
+
     date = csvbase.Date(
         0,
         frmt="%d %b %y",
@@ -51,7 +53,7 @@ class BarclaycardImporter(csvbase.Importer):
     amount = csvbase.CreditOrDebit(
         credit=5,
         debit=6,
-        subs={",": ""},
+        subs={r"^-": "", r",": ""},
         default=None,
     )
 

@@ -1,6 +1,9 @@
 CATEGORY = "category"
 TRANSACTION_TYPE = "transaction-type"
 REFERENCE = "reference"
+ISIN = "isin"
+TICKER = "ticker"
+VENUE = "venue"
 COUNTRY = "country"
 NOTES = "notes"
 
