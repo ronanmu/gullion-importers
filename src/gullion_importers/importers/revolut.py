@@ -1,10 +1,27 @@
 from __future__ import annotations
 
+import datetime
 from pathlib import Path
 
 from beangulp.importers import csvbase
 
-from gullion_importers.revolut import RevolutDate
+from .common.metadata import FEE, TRANSACTION_TYPE
+
+
+class RevolutDate(csvbase.Column):
+    def __init__(self):
+        super().__init__(
+            "Completed Date",
+            "Started Date",
+        )
+
+    def parse(self, completed, started):
+        value = completed or started
+
+        return datetime.datetime.strptime(
+            value.strip(),
+            "%Y-%m-%d %H:%M:%S",
+        ).date()
 
 
 class RevolutCurrentAccountImporter(csvbase.Importer):
@@ -100,10 +117,10 @@ class RevolutCurrentAccountImporter(csvbase.Importer):
         )
 
         if row.transaction_type:
-            meta["transaction-type"] = row.transaction_type.strip().lower().replace(" ", "-")
+            meta[TRANSACTION_TYPE] = row.transaction_type.strip().lower().replace(" ", "-")
 
         if row.fee is not None and row.fee != 0:
-            meta["fee"] = row.fee
+            meta[FEE] = row.fee
 
         return meta
 

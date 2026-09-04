@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from beancount.core import data
 
-from gullion_importers.aib.current_account import (
+from gullion_importers.importers.aib import (
     AIBCurrentAccountImporter,
 )
 

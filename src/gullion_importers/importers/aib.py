@@ -4,6 +4,8 @@ from pathlib import Path
 
 from beangulp.importers import csvbase
 
+from .common.metadata import LOCAL_AMOUNT, LOCAL_CURRENCY, TRANSACTION_TYPE
+
 
 class AIBCurrentAccountImporter(csvbase.Importer):
     """
@@ -155,16 +157,16 @@ class AIBCurrentAccountImporter(csvbase.Importer):
 
         transaction_type = self._transaction_type(row)
         if row.transaction_type:
-            meta["transaction-type"] = transaction_type
+            meta[TRANSACTION_TYPE] = transaction_type
 
         posted_currency = row.currency
         local_currency = row.local_currency
 
         if local_currency and posted_currency and local_currency != posted_currency:
             if row.local_amount is not None:
-                meta["local-amount"] = row.local_amount
+                meta[LOCAL_AMOUNT] = row.local_amount
 
-            meta["local-currency"] = local_currency
+            meta[LOCAL_CURRENCY] = local_currency
 
         return meta
 

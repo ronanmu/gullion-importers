@@ -4,7 +4,8 @@ from pathlib import Path
 import pytest
 from beancount.core import data
 
-from gullion_importers.starling.current_account import StarlingCurrentAccountImporter
+from gullion_importers.importers.common.metadata import CATEGORY, NOTES, TRANSACTION_TYPE
+from gullion_importers.importers.starling import StarlingCurrentAccountImporter
 
 FIXTURES = Path(__file__).parent / "fixtures" / "starling"
 
@@ -94,9 +95,9 @@ def test_gbp_interest_transaction(gbp_transactions):
     assert posting.units.number == Decimal("0.05")
     assert posting.units.currency == "GBP"
 
-    assert tx.meta["transaction-type"] == "deposit-interest"
+    assert tx.meta[TRANSACTION_TYPE] == "deposit-interest"
 
-    assert tx.meta["spend-category"] == "income"
+    assert tx.meta[CATEGORY] == "income"
 
 
 def test_gbp_currency_transfer(gbp_transactions):
@@ -111,9 +112,9 @@ def test_gbp_currency_transfer(gbp_transactions):
     assert posting.units.number == Decimal("-25.00")
     assert posting.units.currency == "GBP"
 
-    assert tx.meta["transaction-type"] == "currency-transfer"
+    assert tx.meta[TRANSACTION_TYPE] == "currency-transfer"
 
-    assert tx.meta["spend-category"] == "personal_transfers"
+    assert tx.meta[CATEGORY] == "personal_transfers"
 
 
 def test_gbp_faster_payment(gbp_transactions):
@@ -126,7 +127,7 @@ def test_gbp_faster_payment(gbp_transactions):
     assert posting.units.number == Decimal("2000.00")
     assert posting.units.currency == "GBP"
 
-    assert tx.meta["transaction-type"] == "faster-payment"
+    assert tx.meta[TRANSACTION_TYPE] == "faster-payment"
 
 
 def test_gbp_online_payment(gbp_transactions):
@@ -140,9 +141,9 @@ def test_gbp_online_payment(gbp_transactions):
     assert posting.units.number == Decimal("-7.45")
     assert posting.units.currency == "GBP"
 
-    assert tx.meta["transaction-type"] == "online-payment"
+    assert tx.meta[TRANSACTION_TYPE] == "online-payment"
 
-    assert tx.meta["spend-category"] == "general"
+    assert tx.meta[CATEGORY] == "general"
 
 
 def test_gbp_contactless_transaction(gbp_transactions):
@@ -155,16 +156,16 @@ def test_gbp_contactless_transaction(gbp_transactions):
 
     assert posting.units.number == Decimal("-52.30")
 
-    assert tx.meta["transaction-type"] == "contactless"
+    assert tx.meta[TRANSACTION_TYPE] == "contactless"
 
-    assert tx.meta["spend-category"] == "groceries"
+    assert tx.meta[CATEGORY] == "groceries"
 
 
 def test_starling_notes_are_preserved(gbp_transactions):
     tx = gbp_transactions[6]
 
     assert tx.payee == "Amazon"
-    assert tx.meta["notes"] == "Household item"
+    assert tx.meta[NOTES] == "Household item"
 
 
 def test_blank_notes_not_added(gbp_transactions):
@@ -198,9 +199,9 @@ def test_eur_currency_transfer(eur_transactions):
     assert posting.units.number == Decimal("29.42")
     assert posting.units.currency == "EUR"
 
-    assert tx.meta["transaction-type"] == "currency-transfer"
+    assert tx.meta[TRANSACTION_TYPE] == "currency-transfer"
 
-    assert tx.meta["spend-category"] == "income"
+    assert tx.meta[CATEGORY] == "income"
 
 
 def test_eur_sepa_incoming_payment(eur_transactions):
@@ -214,7 +215,7 @@ def test_eur_sepa_incoming_payment(eur_transactions):
     assert posting.units.number == Decimal("5.00")
     assert posting.units.currency == "EUR"
 
-    assert tx.meta["transaction-type"] == "sepa-payment"
+    assert tx.meta[TRANSACTION_TYPE] == "sepa-payment"
 
 
 def test_eur_large_incoming_payment(eur_transactions):
@@ -240,9 +241,9 @@ def test_eur_outgoing_payment(eur_transactions):
     assert posting.units.number == Decimal("-20000.00")
     assert posting.units.currency == "EUR"
 
-    assert tx.meta["transaction-type"] == "sepa-payment"
+    assert tx.meta[TRANSACTION_TYPE] == "sepa-payment"
 
-    assert tx.meta["spend-category"] == "payments"
+    assert tx.meta[CATEGORY] == "payments"
 
 
 def test_eur_interest_transaction(eur_transactions):
@@ -256,14 +257,14 @@ def test_eur_interest_transaction(eur_transactions):
     assert posting.units.number == Decimal("0.12")
     assert posting.units.currency == "EUR"
 
-    assert tx.meta["transaction-type"] == "deposit-interest"
+    assert tx.meta[TRANSACTION_TYPE] == "deposit-interest"
 
 
 def test_eur_notes_are_preserved(eur_transactions):
     tx = eur_transactions[7]
 
     assert tx.payee == "Example Merchant"
-    assert tx.meta["notes"] == "Test note"
+    assert tx.meta[NOTES] == "Test note"
 
 
 @pytest.mark.parametrize(
@@ -286,7 +287,7 @@ def test_gbp_transaction_type_normalisation(
 ):
     tx = gbp_transactions[transaction_index]
 
-    assert tx.meta["transaction-type"] == expected_type
+    assert tx.meta[TRANSACTION_TYPE] == expected_type
 
 
 def test_all_gbp_transactions_use_gbp(gbp_transactions):

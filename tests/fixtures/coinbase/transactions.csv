@@ -1,0 +1,5 @@
+ID,Timestamp,Transaction Type,Asset,Quantity Transacted,Price Currency,Price at Transaction,Subtotal,Total,Fees,Notes
+tx-deposit-001,2018-01-15 11:50:37 UTC,Deposit,EUR,100,GBP,£0.889274,£88.92740,£88.92740,£0.00,Deposit from Example Bank
+tx-buy-001,2018-01-15 12:01:47 UTC,Buy,ETH,0.06617081,GBP,£945.95632476,£62.59470,£66.69555,£4.1008537660077444,Bought 0.06617081 ETH using EUR Wallet
+tx-send-001,2018-01-15 12:45:42 UTC,Send,ETH,-0.11105,GBP,£930.18949674,-£103.29754,-£103.29754,£0.00,Sent 0.11105 ETH to external wallet
+tx-buy-002,2018-01-14 21:59:46 UTC,Buy,ETH,0.0264538,GBP,£968.5180476,£25.62098,£27.57808,£1.95709809239912,Bought 0.0264538 ETH using card

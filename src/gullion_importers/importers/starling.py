@@ -4,6 +4,12 @@ from pathlib import Path
 
 from beangulp.importers import csvbase
 
+from .common.metadata import (
+    CATEGORY,
+    NOTES,
+    TRANSACTION_TYPE,
+)
+
 
 class StarlingCurrentAccountImporter(csvbase.Importer):
     """
@@ -76,15 +82,15 @@ class StarlingCurrentAccountImporter(csvbase.Importer):
         )
 
         if row.transaction_type:
-            meta["transaction-type"] = row.transaction_type.strip().lower().replace(" ", "-")
+            meta[TRANSACTION_TYPE] = row.transaction_type.strip().lower().replace(" ", "-")
 
         if row.spending_category:
-            meta["spend-category"] = row.spending_category.strip().lower()
+            meta[CATEGORY] = row.spending_category.strip().lower()
 
         if row.notes:
             notes = row.notes.strip()
 
             if notes:
-                meta["notes"] = notes
+                meta[NOTES] = notes
 
         return meta
