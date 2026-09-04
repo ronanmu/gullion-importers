@@ -1,26 +1,62 @@
 # Gullion Beancount Importers
 
-Beangulp/Beancount importers for some common UK & Ireland financial institutions. 
+Beangulp/Beancount importers for some common UK & Ireland financial institutions.
 
-Currently supported:
+This library is a collection of Beancount importers and reconciliation hooks for converting exports from banks, credit-card providers, investment platforms, and cryptocurrency services into Beancount entries. The project targets **Beancount 3.2.3** and a recent **Beangulp 0.2.x / upstream API** as some importer features used here, including `csvbase.CreditOrDebit` have differed between published Beangulp releases and the upstream repository, therefore it is recommended to install the named Beangulp version or Git commit specified in the `project.toml`
 
-- AIB current accounts
-- Starling GBP & EUR current accounts
-- Revolut multi-currency current accounts
-- American Express UK credit cards
-- Coinbase crypto asset accounts
+## Background
+
+The importers are designed around a few common principles:
+- keep source data as faithful as possible
+- use shared generic metadata keys across institutions
+- avoid prematurely categorising transfers as income or expenses
+- leave ambiguous transactions unresolved rather than guessing
+
+Bank transfers, investment top-ups and similar movments can be imported as one-sided transactions so that they can later be reconciled by a shared transfer or FX matching hooks. 
+
+This library is intended for used with **Python 3.11 or later**. Importers are tested using `pytest` and santisised fixtures are kept under `tests/fixtures/` so that the test suite does not contain real account numbers or transaction references.
+
+
+## Supported institutions
+
+This library supports imports from the following financial institutions and export formats
+
+| Institution | Product | Region | Inupt format | Notes |
+|-------------|---------|--------|--------------|-------|
+| [AIB](https://www.aib.ie/) | 💶 Current Accout | Ireland | CSV | Supports AIB transaction-type prefixes, such as contactless, point-of-sale, plus foreign/local currency metadata where present. |
+| [American Express](https://www.americanexpress.com/en-gb/) | 💳 Credit Card | UK | CSV | Retains foreign exchange spend |
+| [Barclaycard](https://www.barclaycard.co.uk/personal) | 💳 Credit Card | UK | CSV | Supports separate purchase & payment amound colums |
+| [Coinbase](https://www.barclaycard.co.uk/personal) | ₿ Crypto Account | Global | CSV | Supports crypto quantities, acquisition costs, fees and fiat deposits |
+| [Dankse Bank](https://danskebank.co.uk/personal) | 💷 Current Account | UK | CSV | Supports Dankse Bank NI (formerly Northern Bank) |
+| [Freetrade](https://freetrade.io/) | 📈 Investment Account | UK, US | CSV | Supports GBP and foreign-currency securities, stamp duty, FX fees, and one-sided topups suitable for transfer matching. Information and statement entries are ignored  |
+| [Starling Bank](https://www.starlingbank.com/) | 💷 Current Account | UK | CSV | Supports GBP, EUR and Joint accounts |
+| [Revolut](https://www.revolut.com) | 💱 Current Account | Global | CSV | Supports any Revolut currency. Reverted transactions are ignored. FX transactions can be reconciled with FX matching hook. |
+
 
 ## Features
 
-- Beancount 3 / Beangulp compatible
-- AIB current account CSV support
-- Starling GBP and EUR CSV support
-- Revolut EUR/GBP/AED and other currency CSV support
-- Revolut reverted transactions ignored
-- American Express UK card CSV support
-- Coinbase CSV support
-- Useful institution-specific metadata retained
-- pytest test suite with sanitised fixtures
+Importers generally preserve the transaction information supplied by the financial institution while keeping entries suitable for further processing by shared hooks.
+
+Where possible, metadata uses common names across instituions for example:
+
+```text
+transaction-type
+category
+reference
+country
+ticker
+isin
+```
+
+Institution-specific medata is used only where the field has no useful generic equivalent.
+
+This library also includes shared reconciliation hooks for:
+
+- matching transfers between accounts
+- mathcing the two sides of foreign-exchange transactions
+- cleaning payees and narrations
+- deterministic categorisation using regular-expressions and defined ruleset
+- optional categorisation using `smart_importer`
 
 ## Installation
 
@@ -55,15 +91,32 @@ This library contains account importers, as well as hooks for use within the `be
 How to use in `beangulp` importer:
 
 ```python
-from gullion_importers.importers.aib import (
-    AIBCurrentAccountImporter,
-)
+from beangulp import ingest
 
-CONFIG = [
-    AIBCurrentAccountImporter(
-        account="Assets:AIB:Current",
+from gullion_importers.importers import aib, amex, freetrade
+
+IMPORTERS = [
+    aib.AIBCurrentAccountImporter(account="Assets:AIB:Current", currency="EUR"),
+    amex.AmericanExpressImporter(account="Liabilities:CreditCard:Amex", currency="GBP")
+    freetrade.FreetradeImporter(
+        account_root="Assets:Investments:Freetrade",
+        cash_account="Assets:Investments:Freetrade:Cash",
+        dividend_income_account="Income:Investments:Dividends",
+        interest_income_account="Income:Investments:Interest",
+        stamp_duty_account="Expenses:Investment:StampDuty",
+        fx_fee_account="Expenses:Investment:FXFees",
     )
 ]
+
+HOOKS = [
+    # Future hooks listed here
+]
+
+if __name__ == "__main__";
+    ingest.main(
+        IMPORTERS,
+        hooks=HOOKS
+    )
 ```
 ### Transfer matching hook
 
