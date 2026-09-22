@@ -1,0 +1,6 @@
+pattern,match_on,payee,narration,account,tags,metadata
+NETFLIX,both,Netflix,Subscription,Expenses:Entertainment:Subscriptions,subscription;recurring,service=netflix;recurring=true
+TESCO,payee,Tesco,,Expenses:Food:Groceries,food;groceries,merchant-type=supermarket
+AMAZON PRIME,both,Amazon Prime,Subscription,Expenses:Entertainment:Subscriptions,subscription,service=amazon-prime
+AMAZON|AMZN,both,Amazon,,Expenses:Shopping:General,shopping,merchant=amazon
+REVOLUT FX,narration,,,,"",source=revolut;reviewed=true

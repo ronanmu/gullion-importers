@@ -6,6 +6,10 @@ from dataclasses import dataclass
 from beancount.core import data
 from beancount.core.amount import Amount
 
+from gullion_importers.importers.common.metadata import FX_MATCHED, FX_RATE
+
+from .common import pack_extracted, unpack_extracted
+
 
 @dataclass
 class FXCandidate:
@@ -227,8 +231,8 @@ class FXMatcher:
             elif meta[key] != value:
                 meta[f"fx-{key}"] = value
 
-        meta["fx-matched"] = True
-        meta["fx-rate"] = rate
+        meta[FX_MATCHED] = True
+        meta[FX_RATE] = rate
 
         return outgoing.transaction._replace(
             date=max(
@@ -309,13 +313,10 @@ class FXMatcher:
 
         result = []
 
-        for file_index, (
-            filename,
-            entries,
-            account,
-            importer,
-        ) in enumerate(extracted_entries):
+        for file_index, raw_item in enumerate(extracted_entries):
             new_entries = []
+            item = unpack_extracted(raw_item)
+            entries = item.entries
 
             for entry_index, entry in enumerate(entries):
                 key = (
@@ -334,11 +335,9 @@ class FXMatcher:
                 new_entries.append(entry)
 
             result.append(
-                (
-                    filename,
+                pack_extracted(
+                    item,
                     new_entries,
-                    account,
-                    importer,
                 )
             )
 

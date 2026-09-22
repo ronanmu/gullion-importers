@@ -32,13 +32,22 @@ class StarlingCurrentAccountImporter(csvbase.Importer):
         self,
         account: str,
         currency: str = "GBP",
+        name: str | None = None,
     ):
         self.starling_currency = currency
+        self._name = name
 
         super().__init__(
             account=account,
             currency=currency,
         )
+
+    @property
+    def name(self) -> str:
+        if self._name is not None:
+            return self._name
+
+        return super().name
 
     def identify(self, filepath: str) -> bool:
         path = Path(filepath)

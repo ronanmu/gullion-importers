@@ -9,61 +9,11 @@ from gullion_importers.hooks.fxmatcher import (
     FXMatcher,
 )
 
+from tests.helpers import all_transactions, make_extracted, make_transaction
+
 REVOLUT_EUR = "Assets:Bank:Revolut:EUR"
 REVOLUT_GBP = "Assets:Bank:Revolut:GBP"
 REVOLUT_AED = "Assets:Bank:Revolut:AED"
-
-
-def make_transaction(
-    *,
-    transaction_date,
-    account,
-    amount,
-    currency,
-    narration,
-    transaction_type="exchange",
-    meta=None,
-):
-    transaction_meta = dict(meta or {})
-
-    if transaction_type is not None:
-        transaction_meta["transaction-type"] = transaction_type
-
-    posting = data.Posting(
-        account=account,
-        units=Amount(
-            Decimal(amount),
-            currency,
-        ),
-        cost=None,
-        price=None,
-        flag=None,
-        meta=None,
-    )
-
-    return data.Transaction(
-        meta=transaction_meta,
-        date=transaction_date,
-        flag="*",
-        payee=None,
-        narration=narration,
-        tags=frozenset(),
-        links=frozenset(),
-        postings=[posting],
-    )
-
-
-def make_extracted(
-    filename,
-    account,
-    transactions,
-):
-    return (
-        filename,
-        transactions,
-        account,
-        None,
-    )
 
 
 def run_matcher(extracted_entries, tolerance=1):
@@ -80,15 +30,6 @@ def run_matcher(extracted_entries, tolerance=1):
         extracted_entries,
         existing_entries=[],
     )
-
-
-def all_transactions(result):
-    return [
-        entry
-        for _, entries, _, _ in result
-        for entry in entries
-        if isinstance(entry, data.Transaction)
-    ]
 
 
 def test_matches_same_day_eur_to_gbp_exchange():

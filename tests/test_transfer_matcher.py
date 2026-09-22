@@ -9,57 +9,12 @@ from gullion_importers.hooks.transfers import (
     TransferMatcher,
 )
 
+from tests.helpers import all_transactions, make_extracted, make_transaction
+
 AIB_EUR = "Assets:Bank:AIB:EUR"
 REVOLUT_EUR = "Assets:Bank:Revolut:EUR"
 REVOLUT_GBP = "Assets:Bank:Revolut:GBP"
 STARLING_GBP = "Assets:Bank:Starling:GBP"
-
-
-def make_transaction(
-    *,
-    transaction_date,
-    account,
-    amount,
-    currency,
-    narration,
-    payee=None,
-    meta=None,
-):
-    posting = data.Posting(
-        account=account,
-        units=Amount(
-            Decimal(amount),
-            currency,
-        ),
-        cost=None,
-        price=None,
-        flag=None,
-        meta=None,
-    )
-
-    return data.Transaction(
-        meta=meta or {},
-        date=transaction_date,
-        flag="*",
-        payee=payee,
-        narration=narration,
-        tags=frozenset(),
-        links=frozenset(),
-        postings=[posting],
-    )
-
-
-def make_extracted(
-    filename,
-    account,
-    transactions,
-):
-    return (
-        filename,
-        transactions,
-        account,
-        None,
-    )
 
 
 def run_matcher(extracted_entries):
@@ -78,15 +33,6 @@ def run_matcher(extracted_entries):
         extracted_entries,
         existing_entries=[],
     )
-
-
-def all_transactions(result):
-    return [
-        entry
-        for _, entries, _, _ in result
-        for entry in entries
-        if isinstance(entry, data.Transaction)
-    ]
 
 
 def test_matches_same_day_equal_and_opposite_transfer():
@@ -411,8 +357,8 @@ def test_preserves_metadata_from_both_transactions():
         currency="EUR",
         narration="Transfer to Revolut",
         meta={
-            "aib_transaction_type": "transfer",
-            "shared_key": "aib-value",
+            "aib_transaction-type": "transfer",
+            "shared-key": "aib-value",
         },
     )
 
@@ -423,8 +369,8 @@ def test_preserves_metadata_from_both_transactions():
         currency="EUR",
         narration="Bank transfer",
         meta={
-            "revolut_transaction_type": "bank-transfer",
-            "shared_key": "revolut-value",
+            "revolut_transaction-type": "bank-transfer",
+            "shared-key": "revolut-value",
         },
     )
 
@@ -445,11 +391,11 @@ def test_preserves_metadata_from_both_transactions():
 
     tx = all_transactions(result)[0]
 
-    assert tx.meta["aib_transaction_type"] == "transfer"
-    assert tx.meta["revolut_transaction_type"] == "bank-transfer"
+    assert tx.meta["aib_transaction-type"] == "transfer"
+    assert tx.meta["revolut_transaction-type"] == "bank-transfer"
 
-    assert tx.meta["shared_key"] == "aib-value"
-    assert tx.meta["transfer-shared_key"] == "revolut-value"
+    assert tx.meta["shared-key"] == "aib-value"
+    assert tx.meta["transfer-shared-key"] == "revolut-value"
 
 
 def test_combines_narrations():

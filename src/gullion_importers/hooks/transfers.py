@@ -4,6 +4,8 @@ from dataclasses import dataclass
 
 from beancount.core import data
 
+from gullion_importers.hooks.common import pack_extracted, unpack_extracted
+
 
 @dataclass
 class TransferCandidate:
@@ -262,13 +264,10 @@ class TransferMatcher:
 
         result = []
 
-        for file_index, (
-            filename,
-            entries,
-            account,
-            importer,
-        ) in enumerate(extracted_entries):
+        for file_index, raw_item in enumerate(extracted_entries):
             new_entries = []
+            item = unpack_extracted(raw_item)
+            entries = item.entries
 
             for entry_index, entry in enumerate(entries):
                 key = (
@@ -287,11 +286,9 @@ class TransferMatcher:
                 new_entries.append(entry)
 
             result.append(
-                (
-                    filename,
+                pack_extracted(
+                    item,
                     new_entries,
-                    account,
-                    importer,
                 )
             )
 

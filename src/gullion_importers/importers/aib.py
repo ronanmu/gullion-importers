@@ -106,11 +106,21 @@ class AIBCurrentAccountImporter(csvbase.Importer):
         self,
         account: str,
         currency: str = "EUR",
+        name: str | None = None,
     ):
+        self._name = name
+
         super().__init__(
             account=account,
             currency=currency,
         )
+
+    @property
+    def name(self) -> str:
+        if self._name is not None:
+            return self._name
+
+        return super().name
 
     def identify(self, filepath: str) -> bool:
         """

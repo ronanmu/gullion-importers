@@ -72,11 +72,21 @@ class RevolutCurrentAccountImporter(csvbase.Importer):
         self,
         account: str,
         currency: str,
+        name: str | None = None,
     ):
+        self._name = name
+
         super().__init__(
             account=account,
             currency=currency,
         )
+
+    @property
+    def name(self) -> str:
+        if self._name is not None:
+            return self._name
+
+        return super().name
 
     def identify(self, filepath: str) -> bool:
         path = Path(filepath)
