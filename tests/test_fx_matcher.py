@@ -8,7 +8,6 @@ from beancount.core.amount import Amount
 from gullion_importers.hooks.fxmatcher import (
     FXMatcher,
 )
-
 from tests.helpers import all_transactions, make_extracted, make_transaction
 
 REVOLUT_EUR = "Assets:Bank:Revolut:EUR"

@@ -76,7 +76,13 @@ source .venv/bin/activate
 python3 -m pip install -e ".[dev]"
 ```
 
-Running tests with `pytest` 
+Perform syntax and linting validations with `ruff`
+
+```bash
+ruff check .
+```
+
+Run the test suites with `pytest`
 
 ```bash
 pytest -v

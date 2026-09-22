@@ -8,7 +8,6 @@ from beancount.core.amount import Amount
 from gullion_importers.hooks.transfers import (
     TransferMatcher,
 )
-
 from tests.helpers import all_transactions, make_extracted, make_transaction
 
 AIB_EUR = "Assets:Bank:AIB:EUR"
