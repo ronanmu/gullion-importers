@@ -20,6 +20,7 @@ statements/
 downloads/
 private-fixtures/
 *.actual.csv
+*_private.py
 
 # Environment/secrets
 .env

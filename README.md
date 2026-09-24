@@ -1,6 +1,6 @@
 # Gullion Beancount Importers
 
-[Beangulp](https://github.com/beancount/beangulp) importers for the [Beancount](https://github.com/beancount/beancount) plain text accounting platform, covering some common UK & Ireland financial institutions.
+[Beangulp](https://github.com/beancount/beangulp) importers for the [Beancount](https://github.com/beancount/beancount) plain text accounting platform, covering some common UK & Ireland financial institutions, as well as support for a parsing of data from payslips provided in PDF. 
 
 This library is a collection of Beancount importers and reconciliation hooks for converting exports from banks, credit-card providers, investment platforms, and cryptocurrency services into Beancount entries. The project targets **Beancount 3.2.3** and a recent **Beangulp 0.2.x / upstream API** as some importer features used here, including `csvbase.CreditOrDebit` have differed between published Beangulp releases and the upstream repository, therefore it is recommended to install the named Beangulp version or Git commit specified in the `project.toml`
 
@@ -331,3 +331,47 @@ When combining it with the reconciliation hooks above, run transaction
 cleanup after transfer and FX matching if the cleanup rules should operate on
 the final merged transactions. Run it before categorisation rules that depend
 on the payee or narration produced by this hook.
+
+### Payslip PDF parser
+
+---
+
+The payslip parser reads text from PDF payslips using [pdfplumber](https://github.com/jsvine/pdfplumber). Configure a `PayslipImporter` for each payslip
+format you receive. The importer needs an Beancount `Asset:` account for the net pay, a mapping of
+line-item patterns to Beancount accounts, and patterns for the net pay and pay
+date fields.
+
+```python
+from gullion_importers.importers.payslip import PayslipImporter
+
+payslip_importer = PayslipImporter(
+    account="Assets:Bank:Current",
+    line_item_accounts={
+        r"^Salary$": "Income:Employment:Salary",
+        r"^Tax$": "Expenses:Tax",
+        r"National Insurance": "Expenses:NationalInsurance",
+        r"Pension": "Expenses:Pension",
+    },
+    name="Monthly Payslip",
+    currency="GBP",
+    net_amount_pattern=r"Net pay",
+    date_pattern=(r"Month Ending: ?", "%d %B %Y"),
+    source_pattern=r"payslip",
+)
+
+IMPORTERS = [payslip_importer]
+```
+In this example, the net pay from the payslip is expected to be the number following the label `Net Pay`, and the gross salary is the value after a regex-matched `Salary` label. 
+
+Add the importer to the list passed to `beangulp.ingest`, or to the importer
+list in your existing Beangulp configuration. The `line_item_accounts` keys are
+case-insensitive regular expressions. A tuple such as `(r"Payments", 3)` can be
+used when the amount is the third amount after the matching label; the same
+form is supported by `net_amount_pattern` and `date_pattern` when needed.
+
+Income accounts are written as negative postings and expense accounts as
+positive postings, while the configured `account` receives the positive net
+pay amount. Adjust the account names and patterns to match the text extracted
+from your own payslip PDFs. `source_pattern` is optional and can be used to
+prevent the importer from claiming PDFs belonging to another payslip format.
+

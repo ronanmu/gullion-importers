@@ -5,14 +5,22 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gullion-beancount-importers"
 version = "0.1.0"
-description = "Beancount importers for common UK and Irish bank accounts, including Starling, Revolut & AIB."
+description = "Beancount importers for common UK and Irish bank accounts, including Starling, Revolut & AIB. Also supports parsing of PDF payslips"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 
 authors = [{ name = "Ronan Murray" }]
 
-keywords = ["beancount", "beangulp", "finance", "aib", "starling", "revolut"]
+keywords = [
+    "beancount",
+    "beangulp",
+    "finance",
+    "aib",
+    "starling",
+    "revolut",
+    "payslip",
+]
 
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -26,6 +34,8 @@ dependencies = [
     "beancount==3.2.3",
 
     "beangulp @ git+https://github.com/beancount/beangulp.git@d5672c9dbb317842e0f24f1ed7f4b57fa53fa1c6",
+
+    "pdfplumber==0.11.10",
 
     "smart-importer",
 ]
